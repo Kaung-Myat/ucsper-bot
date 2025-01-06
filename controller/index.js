@@ -1,4 +1,4 @@
-const { handleNewMember } = require('./lib/Telegram');
+const { handleNewMember, handleIncomingMessage } = require('./lib/Telegram');
 
 async function handler(req) {
     const { body } = req;
@@ -11,6 +11,9 @@ async function handler(req) {
         // Handle new member joining
         if (messageObj.new_chat_members) {
             await handleNewMember(messageObj);
+        } else {
+            // Handle direct messages or other commands
+            await handleIncomingMessage(messageObj);
         }
     } else {
         console.error("Invalid payload: No 'message' property in the request body");
